@@ -39,13 +39,21 @@ for item in portfolio_items:
 
         # Extract founder name
         try:
-            founder = driver.find_element(By.XPATH, "//div[contains(text(),'founder')]/following-sibling::div/p").text
+            # Explicitly waiting for the founder field to be visible
+            founder_element = WebDriverWait(driver, 10).until(
+                EC.visibility_of_element_located((By.XPATH, "//div[contains(text(),'founder')]/following-sibling::div//p"))
+            )
+            founder = founder_element.text
         except Exception:
             founder = "N/A"
 
         # Extract website URL
         try:
-            website = driver.find_element(By.XPATH, "//div[contains(text(),'website')]/following-sibling::div/p/a").get_attribute("href")
+            # Explicitly waiting for the website field to be visible
+            website_element = WebDriverWait(driver, 10).until(
+                EC.visibility_of_element_located((By.XPATH, "//div[contains(text(),'website')]/following-sibling::div//p/a"))
+            )
+            website = website_element.get_attribute("href")
         except Exception:
             website = "N/A"
 
